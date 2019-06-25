@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:andrid="http://schemas.android.com/apk/res/android"
+    andrid:layout_width="match_parent"
+    andrid:layout_height="match_parent"
+    andrid:orientation="vertical">
+
+    <TextView
+        andrid:layout_width="match_parent"
+        andrid:layout_height="wrap_content"
+        andrid:layout_marginTop="10dp"
+        andrid:layout_marginBottom="10dp"
+        andrid:gravity="center"
+        andrid:text="@string/tv_scoreInput"
+        andrid:textSize="30sp"
+        />
+</LinearLayout>
+

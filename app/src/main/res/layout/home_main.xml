@@ -66,7 +66,8 @@
         android:layout_height="40dp"
         android:layout_marginBottom="20dp"
         android:text="@string/bt_entry"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:onClick="onEnterButtonClick"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -80,15 +81,15 @@
             android:id="@+id/inputButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="250dp"
             android:text="@string/bt_input"/>
 
         <Button
             android:id="@+id/rankingButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="250dp"
+            android:layout_marginLeft="150dp"
             android:text="@string/bt_ranking"/>
     </LinearLayout>
 </LinearLayout>
