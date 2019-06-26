@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 public class Home extends AppCompatActivity {
+    //選手IDを表すフィールド　登録ボタンが押される度に＋1
+    int playerId = 0;
     //選手名を表示するListViewのフィード
     ListView playerMenu;
     //登録ボタンのフィード
@@ -28,6 +30,8 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_main);
 
+        //登録ボタンを所得
+        entryButton = findViewById(R.id.enterButton);
         //選手を入力するEditTextを取得
         nameEditText = findViewById(R.id.nameEditText);
         //nameEditTextにリスナを登録
@@ -36,6 +40,8 @@ public class Home extends AppCompatActivity {
 
     //登録ボタンがタップされた時の処理メソッド
     public void onEnterButtonClick(View view) {
+        //IDを取得
+        playerId += 1;
         //入力された選手名を取得
         nameEditText = findViewById(R.id.nameEditText);
         String name = nameEditText.getText().toString();
