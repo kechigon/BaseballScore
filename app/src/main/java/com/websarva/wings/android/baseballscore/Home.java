@@ -1,5 +1,6 @@
 package com.websarva.wings.android.baseballscore;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +8,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
     //選手IDを表すフィールド　登録ボタンが押される度に＋1
@@ -24,6 +29,8 @@ public class Home extends AppCompatActivity {
     Button rankingButton;
     //選手を入力するEditTextのフィード
     EditText nameEditText;
+    //ListViewに項目がないとき表示するビューのフィード
+    TextView emptyTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,42 @@ public class Home extends AppCompatActivity {
         entryButton = findViewById(R.id.enterButton);
         //選手を入力するEditTextを取得
         nameEditText = findViewById(R.id.nameEditText);
+        //選手名を表示するListViewを取得
+        playerMenu = findViewById(R.id.playerList);
+        //ListViewに項目がない時に表示するビューを取得
+        emptyTextView = findViewById(R.id.emptyTextView);
+        playerMenu.setEmptyView(emptyTextView);
         //nameEditTextにリスナを登録
         nameEditText.addTextChangedListener(new EditEventListener());
+
+        //データベースヘルパーオブジェクトを作成
+        DatabaseHelper helper = new DatabaseHelper(Home.this);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        //ArrayListを作成
+        ArrayList<String> item = new ArrayList<>();
+
+        try {
+            //SQL文の用意
+            String sql = "SELECT * FROM baseballscore";
+            //SQLの実行
+            Cursor cursor = db.rawQuery(sql, null);
+            //データを取得
+            if (cursor.moveToFirst()) {
+                do {
+                    item.add(cursor.getString(1));
+                } while (cursor.moveToNext());
+            }
+        }
+        finally {
+            db.close();
+        }
+
+        //ArrayAdapterのコンストラクタ
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
+        //ListViewにアダプターをセット
+        playerMenu.setAdapter(adapter);
     }
 
     //登録ボタンがタップされた時の処理メソッド
@@ -52,11 +93,12 @@ public class Home extends AppCompatActivity {
         SQLiteDatabase db = helper.getWritableDatabase();
         try {
             //インサート用のSQL文字列の用意
-            String sqlInsert = "INSERT INTO baseballscore (name) VALUES (?)";
+            String sqlInsert = "INSERT INTO baseballscore (_id, name) VALUES (?, ?)";
             //SQL文字列をもとにプリペアドステートメントを取得
             SQLiteStatement stmt = db.compileStatement(sqlInsert);
             //変数バインド
-            stmt.bindString(1,name);
+            stmt.bindLong(1,playerId);
+            stmt.bindString(2,name);
             //インサートSQLの実行
             stmt.executeInsert();
         }

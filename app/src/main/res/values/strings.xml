@@ -9,5 +9,6 @@
     <string name="bt_ranking">ランキング</string>
     <string name="tv_scoreInput">成績入力</string>
     <string name="tv_ranking">ランキング</string>
+    <string name="tv_emptyView">選手が登録されていません</string>
 </resources>
 
