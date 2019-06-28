@@ -14,5 +14,13 @@
         andrid:text="@string/tv_scoreInput"
         andrid:textSize="30sp"
         />
+
+    <Button
+        andrid:id="@+id/backButton"
+        andrid:layout_width="wrap_content"
+        andrid:layout_height="wrap_content"
+        andrid:layout_gravity="center"
+        andrid:text="@string/bt_back"
+        andrid:onClick="onBackButtonClick"/>
 </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.websarva.wings.android.baseballscore;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -48,35 +49,6 @@ public class Home extends AppCompatActivity {
         playerMenu.setEmptyView(emptyTextView);
         //nameEditTextにリスナを登録
         nameEditText.addTextChangedListener(new EditEventListener());
-
-        //データベースヘルパーオブジェクトを作成
-        DatabaseHelper helper = new DatabaseHelper(Home.this);
-        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        //ArrayListを作成
-        ArrayList<String> item = new ArrayList<>();
-
-        try {
-            //SQL文の用意
-            String sql = "SELECT * FROM baseballscore";
-            //SQLの実行
-            Cursor cursor = db.rawQuery(sql, null);
-            //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    item.add(cursor.getString(1));
-                } while (cursor.moveToNext());
-            }
-        }
-        finally {
-            db.close();
-        }
-
-        //ArrayAdapterのコンストラクタ
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
-        //ListViewにアダプターをセット
-        playerMenu.setAdapter(adapter);
     }
 
     //登録ボタンがタップされた時の処理メソッド
@@ -109,6 +81,53 @@ public class Home extends AppCompatActivity {
         nameEditText.setText("");
         //登録ボタンをタップできないように変更
         entryButton.setEnabled(false);
+
+        //選手名を表示するListViewを取得
+        playerMenu = findViewById(R.id.playerList);
+        //データベースヘルパーオブジェクトを作成
+        DatabaseHelper dHelper = new DatabaseHelper(Home.this);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        SQLiteDatabase database = dHelper.getWritableDatabase();
+
+        //ArrayListを作成
+        ArrayList<String> item = new ArrayList<>();
+
+        try {
+            //SQL文の用意
+            String sql = "SELECT * FROM baseballscore";
+            //SQLの実行
+            Cursor cursor = database.rawQuery(sql, null);
+            //データを取得
+            if (cursor.moveToFirst()) {
+                do {
+                    item.add(cursor.getString(1));
+                } while (cursor.moveToNext());
+            }
+        }
+        finally {
+            database.close();
+        }
+
+        //ArrayAdapterのコンストラクタ
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
+        //ListViewにアダプターをセット
+        playerMenu.setAdapter(adapter);
+    }
+
+    //入力ボタンがタップされた時の処理メソッド
+    public void onInputButtonClick (View view) {
+        //インテントオブジェクトを生成
+        Intent intent = new Intent(Home.this, Input.class);
+        //遷移
+        startActivity(intent);
+    }
+
+    //ランキングボタンがタップされた時の処理メソッド
+    public void onRankingButtonClick(View view) {
+        //インテントオブジェクトを生成
+        Intent intent = new Intent(Home.this, Ranking.class);
+        //遷移
+        startActivity(intent);
     }
 
     //EditText選手名が入力された時の処理が記述されたメンバクラス
