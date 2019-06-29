@@ -49,6 +49,15 @@ public class Home extends AppCompatActivity {
         playerMenu.setEmptyView(emptyTextView);
         //nameEditTextにリスナを登録
         nameEditText.addTextChangedListener(new EditEventListener());
+
+        //ArrayListを作成
+        ArrayList<String> item = new ArrayList<>();
+        //データベースから選手名を取得
+        DatabaseOperation.returnItem(item, Home.this);
+        //ArrayAdapterのコンストラクタ
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
+        //ListViewにアダプターをセット
+        playerMenu.setAdapter(adapter);
     }
 
     //登録ボタンがタップされた時の処理メソッド
@@ -84,30 +93,11 @@ public class Home extends AppCompatActivity {
 
         //選手名を表示するListViewを取得
         playerMenu = findViewById(R.id.playerList);
-        //データベースヘルパーオブジェクトを作成
-        DatabaseHelper dHelper = new DatabaseHelper(Home.this);
-        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
-        SQLiteDatabase database = dHelper.getWritableDatabase();
 
         //ArrayListを作成
         ArrayList<String> item = new ArrayList<>();
-
-        try {
-            //SQL文の用意
-            String sql = "SELECT * FROM baseballscore";
-            //SQLの実行
-            Cursor cursor = database.rawQuery(sql, null);
-            //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    item.add(cursor.getString(1));
-                } while (cursor.moveToNext());
-            }
-        }
-        finally {
-            database.close();
-        }
-
+        //データベースから選手名を取得
+        DatabaseOperation.returnItem(item, Home.this);
         //ArrayAdapterのコンストラクタ
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
         //ListViewにアダプターをセット
@@ -145,4 +135,5 @@ public class Home extends AppCompatActivity {
             entryButton.setEnabled(true);
         }
     }
+
 }

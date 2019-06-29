@@ -9,11 +9,19 @@
         andrid:layout_width="match_parent"
         andrid:layout_height="wrap_content"
         andrid:layout_marginTop="10dp"
-        andrid:layout_marginBottom="10dp"
         andrid:gravity="center"
         andrid:text="@string/tv_scoreInput"
         andrid:textSize="30sp"
         />
+
+    <Spinner
+        andrid:id="@+id/playerSelectSpinner"
+        andrid:layout_width="wrap_content"
+        andrid:layout_height="wrap_content"
+        andrid:layout_marginTop="20dp"
+        andrid:layout_marginBottom="20dp"
+        andrid:layout_gravity="center">
+    </Spinner>
 
     <Button
         andrid:id="@+id/backButton"
