@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:andrid="http://schemas.android.com/apk/res/android"
-    andrid:layout_width="match_parent"
-    andrid:layout_height="match_parent"
-    andrid:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        andrid:layout_width="match_parent"
-        andrid:layout_height="wrap_content"
-        andrid:layout_marginTop="10dp"
-        andrid:gravity="center"
-        andrid:text="@string/tv_scoreInput"
-        andrid:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/tv_scoreInput"
+        android:textSize="30sp"
         />
 
     <Spinner
-        andrid:id="@+id/playerSelectSpinner"
-        andrid:layout_width="wrap_content"
-        andrid:layout_height="wrap_content"
-        andrid:layout_marginTop="20dp"
-        andrid:layout_marginBottom="20dp"
-        andrid:layout_gravity="center">
-    </Spinner>
+        android:id="@+id/playerSelectSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"/>
 
     <Button
-        andrid:id="@+id/backButton"
-        andrid:layout_width="wrap_content"
-        andrid:layout_height="wrap_content"
-        andrid:layout_gravity="center"
-        andrid:text="@string/bt_back"
-        andrid:onClick="onBackButtonClick"/>
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/bt_back"
+        android:onClick="onBackButtonClick"/>
+
+    <RelativeLayout
+        android:id="@+id/input_2Fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+    </RelativeLayout>
 </LinearLayout>
 
