@@ -60,7 +60,7 @@ public class Input extends AppCompatActivity {
             Input_2 input_2 = new Input_2();
             //引継ぎデータをInput_2に格納
             input_2.setArguments(bundle);
-            //生成したInput_2をinput_eFragmentレイアウト部品に追加または切り替え
+            //生成したInput_2をinput_2Fragmentレイアウト部品に追加または切り替え
             transaction.replace(R.id.input_2Fragment, input_2);
             //フラグメントトランザクションのコミット
             transaction.commit();
