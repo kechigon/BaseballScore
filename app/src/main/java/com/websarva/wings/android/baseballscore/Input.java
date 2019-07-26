@@ -8,11 +8,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 public class Input extends AppCompatActivity {
      //選手を選択するSpinnerのフィード
     Spinner  pSelectSpinner;
+    //選手が登録されていない場合表示するTextViewのフィード
+    TextView playerEmpty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,11 +25,13 @@ public class Input extends AppCompatActivity {
 
         //選手を選択するSpinnerを取得
         pSelectSpinner = findViewById(R.id.playerSelectSpinner);
+        //選手が登録されていない場合表示するTextViewを取得
+        playerEmpty = findViewById(R.id.playerEmpty);
 
         //ArrayListを作成
         ArrayList<String> item = new ArrayList<>();
         //データベースから選手名を取得
-        DatabaseOperation.returnItem(item, Input.this);
+        DatabaseOperation.returnPlayerName(item, Input.this);
         //ArrayAdapterのコンストラクタ
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, item);
         //リストに表示するレイアウトを指定
@@ -33,6 +40,10 @@ public class Input extends AppCompatActivity {
         pSelectSpinner.setAdapter(adapter);
         //Spinnerにリスナを登録
         pSelectSpinner.setOnItemSelectedListener(new OnItemSelectedListener());
+        //選手が登録されていなかったら「選手が登録されていません」を表示
+        if (!item.isEmpty()) {
+            playerEmpty.setVisibility(View.INVISIBLE);
+        }
     }
 
     //戻るボタンがタップされた時の処理メソッド

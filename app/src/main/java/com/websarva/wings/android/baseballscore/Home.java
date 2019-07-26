@@ -23,10 +23,6 @@ public class Home extends AppCompatActivity {
     ListView playerMenu;
     //登録ボタンのフィード
     Button entryButton;
-    //入力ボタンのフィード
-    Button inputButton;
-    //ランキングボタンのフィード
-    Button rankingButton;
     //選手を入力するEditTextのフィード
     EditText nameEditText;
     //ListViewに項目がないとき表示するビューのフィード
@@ -43,6 +39,9 @@ public class Home extends AppCompatActivity {
         nameEditText = findViewById(R.id.nameEditText);
         //選手名を表示するListViewを取得
         playerMenu = findViewById(R.id.playerList);
+
+        //登録ボタンをタップできないように変更
+        entryButton.setEnabled(false);
         //ListViewに項目がない時に表示するビューを取得
         emptyTextView = findViewById(R.id.emptyTextView);
         playerMenu.setEmptyView(emptyTextView);
@@ -52,7 +51,7 @@ public class Home extends AppCompatActivity {
         //ArrayListを作成
         ArrayList<String> item = new ArrayList<>();
         //データベースから選手名を取得
-        DatabaseOperation.returnItem(item, Home.this);
+        DatabaseOperation.returnPlayerName(item, Home.this);
         //ArrayAdapterのコンストラクタ
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
         //ListViewにアダプターをセット
@@ -67,24 +66,8 @@ public class Home extends AppCompatActivity {
         nameEditText = findViewById(R.id.nameEditText);
         String name = nameEditText.getText().toString();
 
-        //データベースヘルパーオブジェクトを作成
-        DatabaseHelper helper = new DatabaseHelper(Home.this);
-        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try {
-            //インサート用のSQL文字列の用意
-            String sqlInsert = "INSERT INTO baseballscore (_id, name) VALUES (?, ?)";
-            //SQL文字列をもとにプリペアドステートメントを取得
-            SQLiteStatement stmt = db.compileStatement(sqlInsert);
-            //変数バインド
-            stmt.bindLong(1,playerId);
-            stmt.bindString(2,name);
-            //インサートSQLの実行
-            stmt.executeInsert();
-        }
-        finally {
-            db.close();
-        }
+        //データベースに選手名を登録
+        DatabaseOperation.insertPlayerName(playerId, name, Home.this);
         //入力値を削除
         nameEditText.setText("");
         //登録ボタンをタップできないように変更
@@ -96,7 +79,7 @@ public class Home extends AppCompatActivity {
         //ArrayListを作成
         ArrayList<String> item = new ArrayList<>();
         //データベースから選手名を取得
-        DatabaseOperation.returnItem(item, Home.this);
+        DatabaseOperation.returnPlayerName(item, Home.this);
         //ArrayAdapterのコンストラクタ
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
         //ListViewにアダプターをセット
