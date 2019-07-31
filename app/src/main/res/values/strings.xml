@@ -11,8 +11,9 @@
     <string name="tv_ranking">ランキング</string>
     <string name="tv_emptyView">選手が登録されていません</string>
     <string name="bt_back">戻る</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_title">選手を削除</string>
+    <string name="dialog_msg">選手を削除しますか?</string>
+    <string name="dialog_yes">はい</string>
+    <string name="dialog_no">いいえ</string>
 </resources>
 

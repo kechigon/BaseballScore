@@ -47,13 +47,13 @@ public class Ranking extends AppCompatActivity {
         item.add("投球回");
         item.add("失点");
         item.add("自責点");
-        item.add("与四死球");
+        item.add("与四球");
+        item.add("与死球");
         item.add("奪三振");
         item.add("防御率");
         item.add("盗塁刺");
         item.add("守備率");
         item.add("失策");
-        item.add("盗塁阻止率");
         item.add("出席");
         item.add("遅刻");
         //Adapterのコンストラクタ
