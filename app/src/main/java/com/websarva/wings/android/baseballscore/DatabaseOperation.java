@@ -4,13 +4,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DatabaseOperation {
 
     //データベースに選手名を登録する処理メソッド
-    public static void insertPlayerName(String name, Context context) {
+    public void insertPlayerName(String name, Context context) {
         //データベースヘルパーオブジェクトを作成
         DatabaseHelper helper = new DatabaseHelper(context);
         //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
@@ -30,7 +34,7 @@ public class DatabaseOperation {
     }
 
     //データベースから選手名を取得する処理メソッド
-    public static ArrayList<String> returnPlayerName(ArrayList<String> item, Context context) {
+    public ArrayList<String> returnPlayerName(ArrayList<String> item, Context context) {
         //データベースヘルパーオブジェクトを作成
         DatabaseHelper dHelper = new DatabaseHelper(context);
         //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
@@ -42,11 +46,10 @@ public class DatabaseOperation {
             //SQLの実行
             Cursor cursor = database.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    item.add(cursor.getString(0));
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                item.add(cursor.getString(0));
             }
+
         } finally {
             database.close();
         }
@@ -54,7 +57,7 @@ public class DatabaseOperation {
     }
 
     //データベースから選手を削除する処理メソッド  TODO: 名前が同じな選手がいたとき、区別して削除する処理
-    public static void deletePlayerName(String name, Context context) {
+    public void deletePlayerName(String name, Context context) {
         //データベースヘルパーオブジェクトを作成
         DatabaseHelper helper = new DatabaseHelper(context);
         //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
@@ -74,7 +77,7 @@ public class DatabaseOperation {
     }
 
     //データベースに単打を登録する処理メソッド
-    public static void updateTanda(String name, String data, Context context) {
+    public void updateTanda(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -98,7 +101,7 @@ public class DatabaseOperation {
     }
 
     //データベースに二塁打を登録する処理メソッド
-    public static void updateNiruida(String name, String data, Context context) {
+    public void updateNiruida(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -123,7 +126,7 @@ public class DatabaseOperation {
     }
 
     //データベースに三塁打を登録する処理メソッド
-    public static void updateSanruida(String name, String data, Context context) {
+    public void updateSanruida(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -148,7 +151,7 @@ public class DatabaseOperation {
     }
 
     //データベースに本塁打を登録する処理メソッド
-    public static void updateHonnruida(String name, String data, Context context) {
+    public void updateHonnruida(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -173,7 +176,7 @@ public class DatabaseOperation {
     }
 
     //データベースに打数を登録する処理メソッド
-    public static void updateDasuu(String name, String data, Context context) {
+    public void updateDasuu(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -197,7 +200,7 @@ public class DatabaseOperation {
     }
 
     //データベースに打席数を登録する処理メソッド
-    public static void updateDasekisuu(String name, String data, Context context) {
+    public void updateDasekisuu(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -221,7 +224,7 @@ public class DatabaseOperation {
     }
 
     //データベースに打点を登録する処理メソッド
-    public static void updateDatenn(String name, String data, Context context) {
+    public void updateDatenn(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -245,7 +248,7 @@ public class DatabaseOperation {
     }
 
     //データベースに得点を登録する処理メソッド
-    public static void updateTokutenn(String name, String data, Context context) {
+    public void updateTokutenn(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -269,7 +272,7 @@ public class DatabaseOperation {
     }
 
     //データベースに三振を登録する処理メソッド
-    public static void updateSansinn(String name, String data, Context context) {
+    public void updateSansinn(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -293,7 +296,7 @@ public class DatabaseOperation {
     }
 
     //データベースに四球を登録する処理メソッド
-    public static void updateFoabooru(String name, String data, Context context) {
+    public void updateFoabooru(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -317,7 +320,7 @@ public class DatabaseOperation {
     }
 
     //データベースに死球を登録する処理メソッド
-    public static void updateDettobooru(String name, String data, Context context) {
+    public void updateDettobooru(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -341,7 +344,7 @@ public class DatabaseOperation {
     }
 
     //データベースに盗塁を登録する処理メソッド
-    public static void updateTourui(String name, String data, Context context) {
+    public void updateTourui(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -365,7 +368,7 @@ public class DatabaseOperation {
     }
 
     //データベースに盗塁死を登録する処理メソッド
-    public static void updateTouruisasareru(String name, String data, Context context) {
+    public void updateTouruisasareru(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -389,7 +392,7 @@ public class DatabaseOperation {
     }
 
     //データベースに犠打を登録する処理メソッド
-    public static void updateGida(String name, String data, Context context) {
+    public void updateGida(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -413,7 +416,7 @@ public class DatabaseOperation {
     }
 
     //データベースに犠飛を登録する処理メソッド
-    public static void updateGihi(String name, String data, Context context) {
+    public void updateGihi(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -437,7 +440,7 @@ public class DatabaseOperation {
     }
 
     //データベースに投球回を登録する処理メソッド
-    public static void updateToukyuukai(String name, String data, Context context) {
+    public void updateToukyuukai(String name, String data, Context context) {
         //データをdouble型に変換
         double date_2 = Double.parseDouble(data);
         //今の投球回のフィード
@@ -452,17 +455,15 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT toukyuukai FROM baseballscore WHERE name = " + "\"" + name + "\"";
+            String sql = "SELECT toukyuukai FROM baseballscore WHERE name = " + name;
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    //カラムのインデックス値を取得
-                    int idxToukyuukai = cursor.getColumnIndex("touukyuukai");
-                    //カラムのインデックス値をもとにデータを取得
-                    nowToukyuukai = cursor.getInt(idxToukyuukai);
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //カラムのインデックス値を取得
+                int idxToukyuukai = cursor.getColumnIndex("toukyuukai");
+                //カラムのインデックス値をもとにデータを取得
+                nowToukyuukai = cursor.getInt(idxToukyuukai);
             }
         } finally {
             db.close();
@@ -507,7 +508,7 @@ public class DatabaseOperation {
     }
 
     //データベースに失点を登録する処理メソッド
-    public static void updateSittenn(String name, String data, Context context) {
+    public void updateSittenn(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -531,7 +532,7 @@ public class DatabaseOperation {
     }
 
     //データベースに自責点を登録する処理メソッド
-    public static void updateJisekitenn(String name, String data, Context context) {
+    public void updateJisekitenn(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -555,7 +556,7 @@ public class DatabaseOperation {
     }
 
     //データベースに奪三振を登録する処理メソッド
-    public static void updateDatusansinn(String name, String data, Context context) {
+    public void updateDatusansinn(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -579,7 +580,7 @@ public class DatabaseOperation {
     }
 
     //データベースに与四球を登録する処理メソッド
-    public static void updateFoabooruataeru(String name, String data, Context context) {
+    public void updateFoabooruataeru(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -603,7 +604,7 @@ public class DatabaseOperation {
     }
 
     //データベースに与死球を登録する処理メソッド
-    public static void updateDettobooruataeru(String name, String data, Context context) {
+    public void updateDettobooruataeru(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -627,7 +628,7 @@ public class DatabaseOperation {
     }
 
     //データベースに盗塁刺を登録する処理メソッド
-    public static void updateTouruisasu(String name, String data, Context context) {
+    public void updateTouruisasu(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -651,7 +652,7 @@ public class DatabaseOperation {
     }
 
     //データベースに守備機会を登録する処理メソッド
-    public static void updateSyubikikai(String name, String data, Context context) {
+    public void updateSyubikikai(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -675,7 +676,7 @@ public class DatabaseOperation {
     }
 
     //データベースに失策を登録する処理メソッド
-    public static void updateSissaku(String name, String data, Context context) {
+    public void updateSissaku(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -699,7 +700,7 @@ public class DatabaseOperation {
     }
 
     //データベースに出席を登録する処理メソッド
-    public static void updateSyusseki(String name, String data, Context context) {
+    public void updateSyusseki(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -723,7 +724,7 @@ public class DatabaseOperation {
     }
 
     //データベースに遅刻を登録する処理メソッド
-    public static void updateTikoku(String name, String data, Context context) {
+    public void updateTikoku(String name, String data, Context context) {
         //データをint型に変換
         int date_2 = Integer.parseInt(data);
 
@@ -747,7 +748,7 @@ public class DatabaseOperation {
     }
 
     //安打を計算し登録する処理メソッド
-    public static void calculateAndRegistrationAnda(String name, String tanda, String niruida, String sanruida, String honruida, Context context) {
+    public  void calculateAndRegistrationAnda(String name, String tanda, String niruida, String sanruida, String honruida, Context context) {
         //データ型をint型に変換
         int tanda_2 = Integer.parseInt(tanda);
         int niruida_2 = Integer.parseInt(niruida);
@@ -772,19 +773,17 @@ public class DatabaseOperation {
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    //カラムのインデックス値を取得
-                    int idxTanda = cursor.getColumnIndex("tanda");
-                    int idxNiruida = cursor.getColumnIndex("niruida");
-                    int idxSanruida = cursor.getColumnIndex("sanruida");
-                    int idxHoruida = cursor.getColumnIndex("honruida");
-                    //カラムのインデックス値をもとにデータを取得
-                    nowTanda = cursor.getInt(idxTanda);
-                    nowNiruida = cursor.getInt(idxNiruida);
-                    nowSanruida = cursor.getInt(idxSanruida);
-                    nowHonruida = cursor.getInt(idxHoruida);
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //カラムのインデックス値を取得
+                int idxTanda = cursor.getColumnIndex("tanda");
+                int idxNiruida = cursor.getColumnIndex("niruida");
+                int idxSanruida = cursor.getColumnIndex("sanruida");
+                int idxHoruida = cursor.getColumnIndex("honruida");
+                //カラムのインデックス値をもとにデータを取得
+                nowTanda = cursor.getInt(idxTanda);
+                nowNiruida = cursor.getInt(idxNiruida);
+                nowSanruida = cursor.getInt(idxSanruida);
+                nowHonruida = cursor.getInt(idxHoruida);
             }
         } finally {
             db.close();
@@ -812,10 +811,11 @@ public class DatabaseOperation {
         } finally {
             db.close();
         }
+
     }
 
     //打率を計算し登録する処理メソッド
-    public static void calculateAndRegistrationDariut(String name, String tanda, String niruida, String sanruida, String honruida, String dasuu, Context context) {
+    public void calculateAndRegistrationDariut(String name, String tanda, String niruida, String sanruida, String honruida, String dasuu, Context context) {
         //データ型をint型に変換
         int tanda_2 = Integer.parseInt(tanda);
         int niruida_2 = Integer.parseInt(niruida);
@@ -842,21 +842,19 @@ public class DatabaseOperation {
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    //カラムのインデックス値を取得
-                    int idxTanda = cursor.getColumnIndex("tanda");
-                    int idxNiruida = cursor.getColumnIndex("niruida");
-                    int idxSanruida = cursor.getColumnIndex("sanruida");
-                    int idxHoruida = cursor.getColumnIndex("honruida");
-                    int idxDasuu = cursor.getColumnIndex("dasuu");
-                    //カラムのインデックス値をもとにデータを取得
-                    nowTanda = cursor.getInt(idxTanda);
-                    nowNiruida = cursor.getInt(idxNiruida);
-                    nowSanruida = cursor.getInt(idxSanruida);
-                    nowHonruida = cursor.getInt(idxHoruida);
-                    nowDasuu = cursor.getInt(idxDasuu);
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //カラムのインデックス値を取得
+                int idxTanda = cursor.getColumnIndex("tanda");
+                int idxNiruida = cursor.getColumnIndex("niruida");
+                int idxSanruida = cursor.getColumnIndex("sanruida");
+                int idxHoruida = cursor.getColumnIndex("honruida");
+                int idxDasuu = cursor.getColumnIndex("dasuu");
+                //カラムのインデックス値をもとにデータを取得
+                nowTanda = cursor.getInt(idxTanda);
+                nowNiruida = cursor.getInt(idxNiruida);
+                nowSanruida = cursor.getInt(idxSanruida);
+                nowHonruida = cursor.getInt(idxHoruida);
+                nowDasuu = cursor.getInt(idxDasuu);
             }
         } finally {
             db.close();
@@ -885,10 +883,11 @@ public class DatabaseOperation {
         } finally {
             db.close();
         }
+
     }
 
     //出塁率を計算し登録する処理メソッド
-    public static void calculateAndRegistrationSyuturuiritu(String name, String tanda, String niruida, String sanruida, String honruida, String foabooru, String dettobooru, String dasuu, String gihi, Context context) {
+    public void calculateAndRegistrationSyuturuiritu(String name, String tanda, String niruida, String sanruida, String honruida, String foabooru, String dettobooru, String dasuu, String gihi, Context context) {
         //データ型をint型に変換
         int tanda_2 = Integer.parseInt(tanda);
         int niruida_2 = Integer.parseInt(niruida);
@@ -921,27 +920,25 @@ public class DatabaseOperation {
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    //カラムのインデックス値を取得
-                    int idxTanda = cursor.getColumnIndex("tanda");
-                    int idxNiruida = cursor.getColumnIndex("niruida");
-                    int idxSanruida = cursor.getColumnIndex("sanruida");
-                    int idxHoruida = cursor.getColumnIndex("honruida");
-                    int idxFoabooru = cursor.getColumnIndex("foabooru");
-                    int idxDettobooru = cursor.getColumnIndex("dettobooru");
-                    int idxDasuu = cursor.getColumnIndex("dasuu");
-                    int idxGihi = cursor.getColumnIndex("gihi");
-                    //カラムのインデックス値をもとにデータを取得
-                    nowTanda = cursor.getInt(idxTanda);
-                    nowNiruida = cursor.getInt(idxNiruida);
-                    nowSanruida = cursor.getInt(idxSanruida);
-                    nowHonruida = cursor.getInt(idxHoruida);
-                    nowFoabooru = cursor.getInt(idxFoabooru);
-                    nowDettobooru = cursor.getInt(idxDettobooru);
-                    nowDasuu = cursor.getInt(idxDasuu);
-                    nowGihi = cursor.getInt(idxGihi);
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //カラムのインデックス値を取得
+                int idxTanda = cursor.getColumnIndex("tanda");
+                int idxNiruida = cursor.getColumnIndex("niruida");
+                int idxSanruida = cursor.getColumnIndex("sanruida");
+                int idxHoruida = cursor.getColumnIndex("honruida");
+                int idxFoabooru = cursor.getColumnIndex("foabooru");
+                int idxDettobooru = cursor.getColumnIndex("dettobooru");
+                int idxDasuu = cursor.getColumnIndex("dasuu");
+                int idxGihi = cursor.getColumnIndex("gihi");
+                //カラムのインデックス値をもとにデータを取得
+                nowTanda = cursor.getInt(idxTanda);
+                nowNiruida = cursor.getInt(idxNiruida);
+                nowSanruida = cursor.getInt(idxSanruida);
+                nowHonruida = cursor.getInt(idxHoruida);
+                nowFoabooru = cursor.getInt(idxFoabooru);
+                nowDettobooru = cursor.getInt(idxDettobooru);
+                nowDasuu = cursor.getInt(idxDasuu);
+                nowGihi = cursor.getInt(idxGihi);
             }
         } finally {
             db.close();
@@ -973,10 +970,11 @@ public class DatabaseOperation {
         } finally {
             db.close();
         }
+
     }
 
     //長打率を計算し登録する処理メソッド
-    public static void calculateAndRegistrationChoudaritu(String name, String tanda, String niruida, String sanruida, String honruida, String dasuu, Context context) {
+    public void calculateAndRegistrationChoudaritu(String name, String tanda, String niruida, String sanruida, String honruida, String dasuu, Context context) {
         //データ型をint型に変換
         int tanda_2 = Integer.parseInt(tanda);
         int niruida_2 = Integer.parseInt(niruida);
@@ -1003,21 +1001,19 @@ public class DatabaseOperation {
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    //カラムのインデックス値を取得
-                    int idxTanda = cursor.getColumnIndex("tanda");
-                    int idxNiruida = cursor.getColumnIndex("niruida");
-                    int idxSanruida = cursor.getColumnIndex("sanruida");
-                    int idxHoruida = cursor.getColumnIndex("honruida");
-                    int idxDasuu = cursor.getColumnIndex("dasuu");
-                    //カラムのインデックス値をもとにデータを取得
-                    nowTanda = cursor.getInt(idxTanda);
-                    nowNiruida = cursor.getInt(idxNiruida);
-                    nowSanruida = cursor.getInt(idxSanruida);
-                    nowHonruida = cursor.getInt(idxHoruida);
-                    nowDasuu = cursor.getInt(idxDasuu);
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //カラムのインデックス値を取得
+                int idxTanda = cursor.getColumnIndex("tanda");
+                int idxNiruida = cursor.getColumnIndex("niruida");
+                int idxSanruida = cursor.getColumnIndex("sanruida");
+                int idxHoruida = cursor.getColumnIndex("honruida");
+                int idxDasuu = cursor.getColumnIndex("dasuu");
+                //カラムのインデックス値をもとにデータを取得
+                nowTanda = cursor.getInt(idxTanda);
+                nowNiruida = cursor.getInt(idxNiruida);
+                nowSanruida = cursor.getInt(idxSanruida);
+                nowHonruida = cursor.getInt(idxHoruida);
+                nowDasuu = cursor.getInt(idxDasuu);
             }
         } finally {
             db.close();
@@ -1046,10 +1042,11 @@ public class DatabaseOperation {
         } finally {
             db.close();
         }
+
     }
 
     //OPSを計算し登録する処理メソッド
-    public static void calculateAndRegistrationOPS(String name, String tanda, String niruida, String sanruida, String honruida, String foabooru, String dettobooru, String dasuu, String gihi, Context context) {
+    public void calculateAndRegistrationOPS(String name, String tanda, String niruida, String sanruida, String honruida, String foabooru, String dettobooru, String dasuu, String gihi, Context context) {
         //データ型をint型に変換
         int tanda_2 = Integer.parseInt(tanda);
         int niruida_2 = Integer.parseInt(niruida);
@@ -1082,27 +1079,25 @@ public class DatabaseOperation {
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    //カラムのインデックス値を取得
-                    int idxTanda = cursor.getColumnIndex("tanda");
-                    int idxNiruida = cursor.getColumnIndex("niruida");
-                    int idxSanruida = cursor.getColumnIndex("sanruida");
-                    int idxHoruida = cursor.getColumnIndex("honruida");
-                    int idxFoabooru = cursor.getColumnIndex("foabooru");
-                    int idxDettobooru = cursor.getColumnIndex("dettobooru");
-                    int idxDasuu = cursor.getColumnIndex("dasuu");
-                    int idxGihi = cursor.getColumnIndex("gihi");
-                    //カラムのインデックス値をもとにデータを取得
-                    nowTanda = cursor.getInt(idxTanda);
-                    nowNiruida = cursor.getInt(idxNiruida);
-                    nowSanruida = cursor.getInt(idxSanruida);
-                    nowHonruida = cursor.getInt(idxHoruida);
-                    nowFoabooru = cursor.getInt(idxFoabooru);
-                    nowDettobooru = cursor.getInt(idxDettobooru);
-                    nowDasuu = cursor.getInt(idxDasuu);
-                    nowGihi = cursor.getInt(idxGihi);
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //カラムのインデックス値を取得
+                int idxTanda = cursor.getColumnIndex("tanda");
+                int idxNiruida = cursor.getColumnIndex("niruida");
+                int idxSanruida = cursor.getColumnIndex("sanruida");
+                int idxHoruida = cursor.getColumnIndex("honruida");
+                int idxFoabooru = cursor.getColumnIndex("foabooru");
+                int idxDettobooru = cursor.getColumnIndex("dettobooru");
+                int idxDasuu = cursor.getColumnIndex("dasuu");
+                int idxGihi = cursor.getColumnIndex("gihi");
+                //カラムのインデックス値をもとにデータを取得
+                nowTanda = cursor.getInt(idxTanda);
+                nowNiruida = cursor.getInt(idxNiruida);
+                nowSanruida = cursor.getInt(idxSanruida);
+                nowHonruida = cursor.getInt(idxHoruida);
+                nowFoabooru = cursor.getInt(idxFoabooru);
+                nowDettobooru = cursor.getInt(idxDettobooru);
+                nowDasuu = cursor.getInt(idxDasuu);
+                nowGihi = cursor.getInt(idxGihi);
             }
         } finally {
             db.close();
@@ -1137,7 +1132,7 @@ public class DatabaseOperation {
     }
 
     //防御率を計算し登録する処理メソッド
-    public static void calculateAndRegistrationBougyoritu(String name, String jisekitenn, String toukyuukai, Context context) {
+    public void calculateAndRegistrationBougyoritu(String name, String jisekitenn, String toukyuukai, Context context) {
         //データ型をint型に変換
         int jisekitenn_2 = Integer.parseInt(jisekitenn);
         int toukyuukai_2 = Integer.parseInt(toukyuukai);
@@ -1158,16 +1153,15 @@ public class DatabaseOperation {
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    //カラムのインデックス値を取得
-                    int idxJisekitenn = cursor.getColumnIndex("jisekitenn");
-                    int idxToukyuukai = cursor.getColumnIndex("toukyuukai");
-                    //カラムのインデックス値をもとにデータを取得
-                    nowJisekitenn = cursor.getInt(idxJisekitenn);
-                    nowToukyuukai = cursor.getInt(idxToukyuukai);
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //カラムのインデックス値を取得
+                int idxJisekitenn = cursor.getColumnIndex("jisekitenn");
+                int idxToukyuukai = cursor.getColumnIndex("toukyuukai");
+                //カラムのインデックス値をもとにデータを取得
+                nowJisekitenn = cursor.getInt(idxJisekitenn);
+                nowToukyuukai = cursor.getInt(idxToukyuukai);
             }
+
         } finally {
             db.close();
         }
@@ -1195,7 +1189,7 @@ public class DatabaseOperation {
     }
 
     //守備率を計算し登録する処理メソッド
-    public static void calculateAndRegistrationSyubiritu(String name, String syubikikai, String sissaku, Context context) {
+    public void calculateAndRegistrationSyubiritu(String name, String syubikikai, String sissaku, Context context) {
         //データ型をint型に変換
         int syubikikai_2 = Integer.parseInt(syubikikai);
         int sissaku_2 = Integer.parseInt(sissaku);
@@ -1216,15 +1210,13 @@ public class DatabaseOperation {
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    //カラムのインデックス値を取得
-                    int idxSyubikikai = cursor.getColumnIndex("syubikikai");
-                    int idxSissaku = cursor.getColumnIndex("sissaku");
-                    //カラムのインデックス値をもとにデータを取得
-                    nowSyubikikai = cursor.getInt(idxSyubikikai);
-                    nowSissaku = cursor.getInt(idxSissaku);
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //カラムのインデックス値を取得
+                int idxSyubikikai = cursor.getColumnIndex("syubikikai");
+                int idxSissaku = cursor.getColumnIndex("sissaku");
+                //カラムのインデックス値をもとにデータを取得
+                nowSyubikikai = cursor.getInt(idxSyubikikai);
+                nowSissaku = cursor.getInt(idxSissaku);
             }
         } finally {
             db.close();
@@ -1253,7 +1245,7 @@ public class DatabaseOperation {
     }
 
     //データベースから項目ごとに降順で取得する処理メソッド
-    public static ArrayList<String> returnRanking(ArrayList<String> item, String koumoku, Context context) {
+    public List<Map<String, String>> returnRanking(List<Map<String, String>> rankingList, String koumoku, Context context) {
         //koumokuの値がローマ字じゃないのでローマ字に変換する
 
         //変換した値を入れるための変数のフィード
@@ -1351,25 +1343,28 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT  " + koumoku_2 + " FROM baseballscore ORDER BY " + koumoku_2 + " DESC";
+            String sql = "SELECT name, " + koumoku_2 + " FROM baseballscore ORDER BY " + koumoku_2 + " DESC";
             //SQLの実行
             Cursor cursor = database.rawQuery(sql, null);
             //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    item.add(cursor.getString(cursor.getColumnIndex(koumoku_2)));
-                } while (cursor.moveToNext());
+            while (cursor.moveToNext()) {
+                //選手名とスコアを格納するMapオブジェクトの用意とrankingListへのデータ登録
+                Map<String, String> playerAndScore = new HashMap<>();
+                playerAndScore.put("name",cursor.getString(cursor.getColumnIndex("name")));
+                playerAndScore.put("score",cursor.getString(cursor.getColumnIndex(koumoku_2)));
+                rankingList.add(playerAndScore);
             }
+
         } finally {
             database.close();
         }
-        return item;
+        return rankingList;
     }
 
-    //データベースから投球回を昇順で取得する処理メソッド
-    public static ArrayList<String> returnToukyuukaiRanking(ArrayList<String> item, String toukyuukai, Context context) {
-        //toukyuukaiの値がローマ字じゃないのでローマ字に変換する
-        String toukyuukai_2 = "toukyuukai";
+    //データベースから防御率を昇順で取得する処理メソッド
+    public List<Map<String, String>> returnBougyorituiRanking(List<Map<String, String>> rankingList, String bougyoritu, Context context) {
+        //bougyorituの値がローマ字じゃないのでローマ字に変換する
+        String bougyoritu_2 = "bougyoritu";
 
         //データベースヘルパーオブジェクトを作成
         DatabaseHelper dHelper = new DatabaseHelper(context);
@@ -1378,19 +1373,21 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT  " + toukyuukai_2 + " FROM baseballscore ORDER BY " + toukyuukai_2 + " DESC";
+            String sql = "SELECT name, " + bougyoritu_2 + " FROM baseballscore ORDER BY " + bougyoritu_2;
             //SQLの実行
             Cursor cursor = database.rawQuery(sql, null);
-            //データを取得
-            if (cursor.moveToFirst()) {
-                do {
-                    item.add(cursor.getString(cursor.getColumnIndex(toukyuukai_2)));
-                } while (cursor.moveToNext());
+            //デーを取得
+            while (cursor.moveToNext()) {
+                //選手名とスコアを格納するMapオブジェクトの用意とrankingListへのデータ登録
+                Map<String, String> playerAndScore = new HashMap<>();
+                playerAndScore.put("name",cursor.getString(cursor.getColumnIndex("name")));
+                playerAndScore.put("score",cursor.getString(cursor.getColumnIndex(bougyoritu_2)));
+                rankingList.add(playerAndScore);
             }
         } finally {
             database.close();
         }
-        return item;
+        return rankingList;
     }
 
 }

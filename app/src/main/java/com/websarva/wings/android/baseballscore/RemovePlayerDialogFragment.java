@@ -13,13 +13,13 @@ public class RemovePlayerDialogFragment extends DialogFragment {
         //ダイアログビルダーを生成
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //ダイアログのタイトルを設定
-        builder.setTitle(R.string.dialog_title);
+        builder.setTitle("選手を削除");
         //ダイアログのメッセージを設定
-        builder.setMessage(R.string.dialog_msg);
+        builder.setMessage("選手を削除しますか？");
         //positive Buttonを設定
-        builder.setPositiveButton(R.string.dialog_yes, new DialogButtonClickListener());
+        builder.setPositiveButton("はい", new DialogButtonClickListener());
         //negative Buttonを設定
-        builder.setNegativeButton(R.string.dialog_no, new  DialogButtonClickListener());
+        builder.setNegativeButton("いいえ", new DialogButtonClickListener());
         //ダイアログオブジェクトを生成し、リターン
         AlertDialog dialog = builder.create();
         return dialog;
@@ -31,19 +31,22 @@ public class RemovePlayerDialogFragment extends DialogFragment {
             //引継ぎデータを取得
             Bundle extras = getArguments();
             String playerName = extras.getString("playerName");
-            //タップされたアクションボタンで分岐
+
+            //データベースオペレーションオブジェクトを生成
+            DatabaseOperation dbo = new DatabaseOperation();
+            // タップされたアクションボタンで分岐
             switch (which) {
                 //positive Buttonならば
                 case DialogInterface.BUTTON_POSITIVE:
-                    DatabaseOperation.deletePlayerName(playerName, getActivity());
+                    dbo.deletePlayerName(playerName, getActivity());
                     Toast.makeText(getActivity(), "削除しました", Toast.LENGTH_LONG).show();
                     //HomeActivityを呼ぶ
-                    Home callingActivity = (Home)getActivity();
+                    Home callingActivity = (Home) getActivity();
                     //HomeActivityのonReturnValueを呼ぶ
-                    callingActivity.onReturnValue(playerName);
+                    callingActivity.deleteLine(playerName);
                     break;
                 //negative Buttonならば
-                case  DialogInterface.BUTTON_NEGATIVE:
+                case DialogInterface.BUTTON_NEGATIVE:
                     break;
             }
         }

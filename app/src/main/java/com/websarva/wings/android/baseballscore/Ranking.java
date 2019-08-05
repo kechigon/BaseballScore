@@ -13,16 +13,13 @@ import java.util.ArrayList;
 
 public class Ranking extends AppCompatActivity {
 
-    //ランキング項目を選択するSpinnerのフィード
-    Spinner rSelectSpinner;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ranking);
 
         //ランキング項目を選択するSpinnerを取得
-        rSelectSpinner = findViewById(R.id.rankingSelectSpinner);
+        Spinner rSelectSpinner = findViewById(R.id.rankingSelectSpinner);
 
         //ArrayListを作成
         ArrayList<String> item = new ArrayList<>();
@@ -96,6 +93,7 @@ public class Ranking extends AppCompatActivity {
             //フラグメントトランザクションのコミット
             transaction.commit();
         }
+
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
         }

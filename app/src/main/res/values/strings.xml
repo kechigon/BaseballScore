@@ -1,19 +1,4 @@
 <resources>
     <string name="app_name">野球ランキング</string>
-    <string name="tv_baseball">野球</string>
-    <string name="tv_scoreRanking">成績ランキング</string>
-    <string name="tv_player">選手</string>
-    <string name="tv_name">名前</string>
-    <string name="bt_entry">登録</string>
-    <string name="bt_input">入力</string>
-    <string name="bt_ranking">ランキング</string>
-    <string name="tv_scoreInput">成績入力</string>
-    <string name="tv_ranking">ランキング</string>
-    <string name="tv_emptyView">選手が登録されていません</string>
-    <string name="bt_back">戻る</string>
-    <string name="dialog_title">選手を削除</string>
-    <string name="dialog_msg">選手を削除しますか?</string>
-    <string name="dialog_yes">はい</string>
-    <string name="dialog_no">いいえ</string>
 </resources>
 

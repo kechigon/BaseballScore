@@ -143,7 +143,7 @@ public class Input_2 extends Fragment {
             @Override
             public void onClick(View v) {
                 //入力されたデータを取得
-                String tanda =tandaEditText.getText().toString();
+                String tanda = tandaEditText.getText().toString();
                 String niruida = niruidaEditText.getText().toString();
                 String sanruida = sanruidaEditText.getText().toString();
                 String honruida = honruidaEditText.getText().toString();
@@ -173,47 +173,48 @@ public class Input_2 extends Fragment {
                 //
 
                 //データベースに登録
-                DatabaseOperation.updateTanda(playerName, tanda, getActivity());
-                DatabaseOperation.updateNiruida(playerName, niruida, getActivity());
-                DatabaseOperation.updateSanruida(playerName, sanruida, getActivity());
-                DatabaseOperation.updateHonnruida(playerName, honruida, getActivity());
-                DatabaseOperation.updateDasuu(playerName, dasuu, getActivity());
-                DatabaseOperation.updateDasekisuu(playerName, dasekisuu, getActivity());
-                DatabaseOperation.updateDatenn(playerName, datenn, getActivity());
-                DatabaseOperation.updateTokutenn(playerName, tokutenn, getActivity());
-                DatabaseOperation.updateSansinn(playerName, sansinn, getActivity());
-                DatabaseOperation.updateFoabooru(playerName, foabooru, getActivity());
-                DatabaseOperation.updateDettobooru(playerName, dettobooru, getActivity());
-                DatabaseOperation.updateTourui(playerName, tourui, getActivity());
-                DatabaseOperation.updateTouruisasareru(playerName, touruisasareru, getActivity());
-                DatabaseOperation.updateGida(playerName, gida, getActivity());
-                DatabaseOperation.updateGihi(playerName, gihi, getActivity());
-                DatabaseOperation.updateToukyuukai(playerName, toukyuukai, getActivity());
-                DatabaseOperation.updateSittenn(playerName, sittenn, getActivity());
-                DatabaseOperation.updateJisekitenn(playerName, jisekitenn, getActivity());
-                DatabaseOperation.updateDatusansinn(playerName, datusansinn, getActivity());
-                DatabaseOperation.updateFoabooruataeru(playerName,foabooruataeru,getActivity());
-                DatabaseOperation.updateDettobooruataeru(playerName,dettobooruataeru,getActivity());
-                DatabaseOperation.updateTouruisasu(playerName, touruisasu, getActivity());
-                DatabaseOperation.updateSyubikikai(playerName, syubikikai, getActivity());
-                DatabaseOperation.updateSissaku(playerName, sissaku, getActivity());
-                DatabaseOperation.updateSyusseki(playerName, syusseki, getActivity());
-                DatabaseOperation.updateTikoku(playerName, tikoku, getActivity());
+                DatabaseOperation dbo = new DatabaseOperation();
+                dbo.updateTanda(playerName, tanda, getActivity());
+                dbo.updateNiruida(playerName, niruida, getActivity());
+                dbo.updateSanruida(playerName, sanruida, getActivity());
+                dbo.updateHonnruida(playerName, honruida, getActivity());
+                dbo.updateDasuu(playerName, dasuu, getActivity());
+                dbo.updateDasekisuu(playerName, dasekisuu, getActivity());
+                dbo.updateDatenn(playerName, datenn, getActivity());
+                dbo.updateTokutenn(playerName, tokutenn, getActivity());
+                dbo.updateSansinn(playerName, sansinn, getActivity());
+                dbo.updateFoabooru(playerName, foabooru, getActivity());
+                dbo.updateDettobooru(playerName, dettobooru, getActivity());
+                dbo.updateTourui(playerName, tourui, getActivity());
+                dbo.updateTouruisasareru(playerName, touruisasareru, getActivity());
+                dbo.updateGida(playerName, gida, getActivity());
+                dbo.updateGihi(playerName, gihi, getActivity());
+                dbo.updateToukyuukai(playerName, toukyuukai, getActivity());
+                dbo.updateSittenn(playerName, sittenn, getActivity());
+                dbo.updateJisekitenn(playerName, jisekitenn, getActivity());
+                dbo.updateDatusansinn(playerName, datusansinn, getActivity());
+                dbo.updateFoabooruataeru(playerName, foabooruataeru, getActivity());
+                dbo.updateDettobooruataeru(playerName, dettobooruataeru, getActivity());
+                dbo.updateTouruisasu(playerName, touruisasu, getActivity());
+                dbo.updateSyubikikai(playerName, syubikikai, getActivity());
+                dbo.updateSissaku(playerName, sissaku, getActivity());
+                dbo.updateSyusseki(playerName, syusseki, getActivity());
+                dbo.updateTikoku(playerName, tikoku, getActivity());
 
                 //安打を計算しデータベースに登録
-                DatabaseOperation.calculateAndRegistrationAnda(playerName,tanda,niruida,sanruida,honruida,getActivity());
+                dbo.calculateAndRegistrationAnda(playerName, tanda, niruida, sanruida, honruida, getActivity());
                 //打率を計算しデータベースに登録
-                DatabaseOperation.calculateAndRegistrationDariut(playerName,tanda,niruida,sanruida,honruida,dasuu,getActivity());
+                dbo.calculateAndRegistrationDariut(playerName, tanda, niruida, sanruida, honruida, dasuu, getActivity());
                 //出塁率を計算しデータベースに登録
-                DatabaseOperation.calculateAndRegistrationSyuturuiritu(playerName,tanda,niruida,sanruida,honruida,foabooru,dettobooru,dasuu,gihi,getActivity());
+                dbo.calculateAndRegistrationSyuturuiritu(playerName, tanda, niruida, sanruida, honruida, foabooru, dettobooru, dasuu, gihi, getActivity());
                 //長打率を計算しデータベースに登録
-                DatabaseOperation.calculateAndRegistrationChoudaritu(playerName,tanda,niruida,sanruida,honruida,dasuu,getActivity());
+                dbo.calculateAndRegistrationChoudaritu(playerName, tanda, niruida, sanruida, honruida, dasuu, getActivity());
                 //OPSを計算しデータベースに登録
-                DatabaseOperation.calculateAndRegistrationOPS(playerName,tanda,niruida,sanruida,honruida,foabooru,dettobooru,dasuu,gihi,getActivity());
+                dbo.calculateAndRegistrationOPS(playerName, tanda, niruida, sanruida, honruida, foabooru, dettobooru, dasuu, gihi, getActivity());
                 //防御率を計算しデータベースに登録
-                DatabaseOperation.calculateAndRegistrationBougyoritu(playerName,jisekitenn,toukyuukai,getActivity());
+                dbo.calculateAndRegistrationBougyoritu(playerName, jisekitenn, toukyuukai, getActivity());
                 //守備率を計算しデータベースに登録
-                DatabaseOperation.calculateAndRegistrationSyubiritu(playerName,syubikikai,sissaku,getActivity());
+                dbo.calculateAndRegistrationSyubiritu(playerName, syubikikai, sissaku, getActivity());
             }
         });
         //インフレートされた画面を戻り値として返す

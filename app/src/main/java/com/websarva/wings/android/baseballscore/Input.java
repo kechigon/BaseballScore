@@ -13,10 +13,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class Input extends AppCompatActivity {
-     //選手を選択するSpinnerのフィード
-    Spinner  pSelectSpinner;
-    //選手が登録されていない場合表示するTextViewのフィード
-    TextView playerEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +20,15 @@ public class Input extends AppCompatActivity {
         setContentView(R.layout.input);
 
         //選手を選択するSpinnerを取得
-        pSelectSpinner = findViewById(R.id.playerSelectSpinner);
+        Spinner pSelectSpinner = findViewById(R.id.playerSelectSpinner);
         //選手が登録されていない場合表示するTextViewを取得
-        playerEmpty = findViewById(R.id.playerEmpty);
+        TextView playerEmpty = findViewById(R.id.playerEmpty);
 
         //ArrayListを作成
         ArrayList<String> item = new ArrayList<>();
         //データベースから選手名を取得
-        DatabaseOperation.returnPlayerName(item, Input.this);
+        DatabaseOperation dbo = new DatabaseOperation();
+        dbo.returnPlayerName(item, Input.this);
         //ArrayAdapterのコンストラクタ
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, item);
         //リストに表示するレイアウトを指定
@@ -76,6 +73,7 @@ public class Input extends AppCompatActivity {
             //フラグメントトランザクションのコミット
             transaction.commit();
         }
+
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
         }

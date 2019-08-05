@@ -22,7 +22,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb.append("CREATE TABLE baseballscore (");
         sb.append("_id INTEGER PRIMARY KEY,");
         sb.append("name TEXT,");
-        sb.append("siaisuu INTEGER DEFAULT 0,");
         sb.append("anda INTEGER DEFAULT 0,");
         sb.append("daritu NUMERIC DEFAULT NoRecord,");
         sb.append("datenn INTEGER DEFAULT 0,");

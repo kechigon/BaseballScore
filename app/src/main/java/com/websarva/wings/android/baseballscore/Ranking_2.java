@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Ranking_2 extends Fragment {
 
@@ -37,23 +40,34 @@ public class Ranking_2 extends Fragment {
 
         //ランキングを表示するListViewを表示
 
+        //データベースオペレーションオブジェクトを生成
+        DatabaseOperation dbo = new DatabaseOperation();
+
         //選択された項目が投球回だったら昇順、それ以外だったら降順
-        if (rankingName == "投球回") {
-            //ArrayListを作成
-            ArrayList<String> item = new ArrayList<>();
-            //データベースから投球を昇順に取得
-            DatabaseOperation.returnToukyuukaiRanking(item, rankingName, getContext());
-            //ArrayAdapterのコンストラクタ
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, item);
+        if (rankingName == "防御率") {
+            //SimpleAdapterで使用するListオブジェクトを用意
+            List<Map<String, String>> rankingList = new ArrayList<>();
+            //データベースから選択された項目を降順に取得
+            rankingList = dbo.returnBougyorituiRanking(rankingList, rankingName, getActivity());
+            //SimpleAdapterの第4引数from用のデータを用意
+            String[] from = {"name", "score"};
+            //SimpleAdapter第4引数のto用データの用意
+            int[] to = {R.id.tvPlayerName, R.id.tvScore};
+            //SimpleAdapterを生成
+            SimpleAdapter adapter = new SimpleAdapter(getActivity(), rankingList, R.layout.row, from, to);
             //ListViewにアダプターをセット
             rankingMenu.setAdapter(adapter);
-        }else {
-            //ArrayListを作成
-            ArrayList<String> item = new ArrayList<>();
+        } else {
+            //SimpleAdapterで使用するListオブジェクトを用意
+            List<Map<String, String>> rankingList = new ArrayList<>();
             //データベースから選択された項目を降順に取得
-            DatabaseOperation.returnRanking(item, rankingName, getContext());
-            //ArrayAdapterのコンストラクタ
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, item);
+            rankingList = dbo.returnRanking(rankingList, rankingName, getActivity());
+            //SimpleAdapterの第4引数from用のデータを用意
+            String[] from = {"name", "score"};
+            //SimpleAdapter第4引数のto用データの用意
+            int[] to = {R.id.tvPlayerName, R.id.tvScore};
+            //SimpleAdapterを生成
+            SimpleAdapter adapter = new SimpleAdapter(getActivity(), rankingList, R.layout.row, from, to);
             //ListViewにアダプターをセット
             rankingMenu.setAdapter(adapter);
         }

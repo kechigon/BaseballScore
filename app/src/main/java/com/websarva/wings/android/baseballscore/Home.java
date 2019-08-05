@@ -22,8 +22,6 @@ public class Home extends AppCompatActivity {
     Button entryButton;
     //選手を入力するEditTextのフィード
     EditText nameEditText;
-    //ListViewに項目がないとき表示するビューのフィード
-    TextView emptyTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +44,15 @@ public class Home extends AppCompatActivity {
         //ArrayListを作成
         ArrayList<String> item = new ArrayList<>();
         //データベースから選手名を取得
-        DatabaseOperation.returnPlayerName(item, Home.this);
+        DatabaseOperation dbo = new DatabaseOperation();
+        dbo.returnPlayerName(item, Home.this);
         //ArrayAdapterのコンストラクタ
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
         //ListViewにアダプターをセット
         playerMenu.setAdapter(adapter);
 
         //ListViewに項目がない時に表示するビューを取得
-        emptyTextView = findViewById(R.id.emptyTextView);
+        TextView emptyTextView = findViewById(R.id.emptyTextView);
         playerMenu.setEmptyView(emptyTextView);
 
         //playerMenuに長押しした時のリスナを登録
@@ -61,7 +60,7 @@ public class Home extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //長押しした行の選手名を取得
-                String playerName = (String)parent.getItemAtPosition(position);
+                String playerName = (String) parent.getItemAtPosition(position);
                 //引継ぎデータをまとめて格納できるBundleオブジェクトを生成
                 Bundle bundle = new Bundle();
                 //Bundleオブジェクトに引継ぎデータを格納
@@ -79,19 +78,19 @@ public class Home extends AppCompatActivity {
     }
 
     //選手が削除された行を削除
-    public void onReturnValue(String name) {
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>)playerMenu.getAdapter();
+    public void deleteLine(String name) {
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) playerMenu.getAdapter();
         adapter.remove(name);
     }
 
     //登録ボタンがタップされた時の処理メソッド
     public void onEnterButtonClick(View view) {
         //入力された選手名を取得
-        nameEditText = findViewById(R.id.nameEditText);
         String name = nameEditText.getText().toString();
 
         //データベースに選手名を登録
-        DatabaseOperation.insertPlayerName(name, Home.this);
+        DatabaseOperation dbo = new DatabaseOperation();
+        dbo.insertPlayerName(name, Home.this);
         //入力値を削除
         nameEditText.setText("");
         //登録ボタンをタップできないように変更
@@ -100,7 +99,7 @@ public class Home extends AppCompatActivity {
         //ArrayListを作成
         ArrayList<String> item = new ArrayList<>();
         //データベースから選手名を取得
-        DatabaseOperation.returnPlayerName(item, Home.this);
+        dbo.returnPlayerName(item, Home.this);
         //ArrayAdapterのコンストラクタ
         ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
         //ListViewにアダプターをセット
@@ -108,7 +107,7 @@ public class Home extends AppCompatActivity {
     }
 
     //入力ボタンがタップされた時の処理メソッド
-    public void onInputButtonClick (View view) {
+    public void onInputButtonClick(View view) {
         //インテントオブジェクトを生成
         Intent intent = new Intent(Home.this, Input.class);
         //遷移
@@ -128,6 +127,7 @@ public class Home extends AppCompatActivity {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
