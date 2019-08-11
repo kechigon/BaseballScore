@@ -60,7 +60,34 @@ public class Ranking extends AppCompatActivity {
         //Spinnerにアダプターをセット
         rSelectSpinner.setAdapter(adapter);
         //スピナーにリスナを登録
-        rSelectSpinner.setOnItemSelectedListener(new OnItemSelectedListener());
+        rSelectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //タップされた行のデータを取得
+                String rankingName = (String) parent.getItemAtPosition(position);
+                //引継ぎデータをまとめて格納できるbundleオブジェクト生成
+                Bundle bundle = new Bundle();
+                //bundleオブジェクト引継ぎデータを格納
+                bundle.putString("rankingName", rankingName);
+
+                //フラグメントマネージャーの取得
+                FragmentManager manager = getSupportFragmentManager();
+                //フラグメンテーションの開始
+                FragmentTransaction transaction = manager.beginTransaction();
+                //Ranking_2を生成
+                Ranking_2 ranking_2 = new Ranking_2();
+                //引継ぎデータをRanking_2に格納
+                ranking_2.setArguments(bundle);
+                //生成したRanking_2をranking_2Fragmentレイアウト部品に追加または切り替え
+                transaction.replace(R.id.ranking_2Fragment, ranking_2);
+                //フラグメントトランザクションのコミット
+                transaction.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     //戻るボタンがタップされた時の処理メソッド
@@ -69,33 +96,4 @@ public class Ranking extends AppCompatActivity {
         finish();
     }
 
-    //Spinnerのリスナクラス
-    public class OnItemSelectedListener implements AdapterView.OnItemSelectedListener {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            //タップされた行のデータを取得
-            String rankingName = (String) parent.getItemAtPosition(position);
-            //引継ぎデータをまとめて格納できるbundleオブジェクト生成
-            Bundle bundle = new Bundle();
-            //bundleオブジェクト引継ぎデータを格納
-            bundle.putString("rankingName", rankingName);
-
-            //フラグメントマネージャーの取得
-            FragmentManager manager = getSupportFragmentManager();
-            //フラグメンテーションの開始
-            FragmentTransaction transaction = manager.beginTransaction();
-            //Ranking_2を生成
-            Ranking_2 ranking_2 = new Ranking_2();
-            //引継ぎデータをRanking_2に格納
-            ranking_2.setArguments(bundle);
-            //生成したRanking_2をranking_2Fragmentレイアウト部品に追加または切り替え
-            transaction.replace(R.id.ranking_2Fragment, ranking_2);
-            //フラグメントトランザクションのコミット
-            transaction.commit();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-    }
 }

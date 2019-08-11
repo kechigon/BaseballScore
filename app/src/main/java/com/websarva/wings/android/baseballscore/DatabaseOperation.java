@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,14 +61,14 @@ public class DatabaseOperation {
         //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
         SQLiteDatabase db = helper.getWritableDatabase();
         try {
-            //インサート用のSQL文字列の用意
-            String sqlInsert = "DELETE FROM baseballscore WHERE name = ?";
+            //用のSQL文字列の用意
+            String sqlDelete = "DELETE FROM baseballscore WHERE name = ?";
             //SQL文字列をもとにプリペアドステートメントを取得
-            SQLiteStatement stmt = db.compileStatement(sqlInsert);
+            SQLiteStatement stmt = db.compileStatement(sqlDelete);
             //変数バインド
             stmt.bindString(1, name);
-            //インサートSQLの実行
-            stmt.executeInsert();
+            //削除SQLの実行
+            stmt.executeUpdateDelete();
         } finally {
             db.close();
         }
@@ -455,7 +453,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT toukyuukai FROM baseballscore WHERE name = " + name;
+            String sql = "SELECT toukyuukai FROM baseballscore WHERE name = " + "\'" + name + "\'";
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
@@ -490,6 +488,11 @@ public class DatabaseOperation {
         } else {
             toukyuukai = date_2 + nowToukyuukai;
         }
+
+        //データベースヘルパーオブジェクトを作成
+        helper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        db = helper.getWritableDatabase();
 
         //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
         try {
@@ -769,7 +772,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT tanda,niruida,sanruida,honruida,dasuu FROM baseballscore WHERE name = " + name;
+            String sql = "SELECT tanda,niruida,sanruida,honruida,dasuu FROM baseballscore WHERE name = " + "\'" + name + "\'";
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
@@ -796,6 +799,11 @@ public class DatabaseOperation {
         int honruida_3 = honruida_2 + nowHonruida;
 
         int anda = tanda_3 + niruida_3 + sanruida_3 + honruida_3;
+
+        //データベースヘルパーオブジェクトを作成
+        helper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        db = helper.getWritableDatabase();
 
         //安打をデータベースに登録
         try {
@@ -838,7 +846,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT tanda,niruida,sanruida,honruida,dasuu FROM baseballscore WHERE name = " + name;
+            String sql = "SELECT tanda,niruida,sanruida,honruida,dasuu FROM baseballscore WHERE name = " + "\'" + name + "\'";
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
@@ -867,7 +875,17 @@ public class DatabaseOperation {
         int honruida_3 = honruida_2 + nowHonruida;
         int dasuu_3 = dasuu_2 + nowDasuu;
 
-        double daritu = Math.round((tanda_3 + niruida_3 + sanruida_3 + honruida_3) / dasuu_3 * 1000) / 1000;
+        //打数が0だったら計算しない
+        if (dasuu_3 == 0) {
+            return;
+        }
+
+        double daritu = (double)Math.round(((double)tanda_3 + niruida_3 + sanruida_3 + honruida_3) / dasuu_3 * 1000) / 1000;
+
+        //データベースヘルパーオブジェクトを作成
+        helper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        db = helper.getWritableDatabase();
 
         //打率をデータベースに登録
         try {
@@ -916,7 +934,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT tanda,niruida,sanruida,honruida,foabooru,dettobooru,dasuu,gihi FROM baseballscore WHERE name = " + name;
+            String sql = "SELECT tanda,niruida,sanruida,honruida,foabooru,dettobooru,dasuu,gihi FROM baseballscore WHERE name = " + "\'" + name + "\'";
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
@@ -954,7 +972,17 @@ public class DatabaseOperation {
         int dasuu_3 = dasuu_2 + nowDasuu;
         int gihi_3 = gihi_2 + nowGihi;
 
-        double syuturuiritu = Math.round((tanda_3 + niruida_3 + sanruida_3 + honruida_3 + foabooru_3 + dettobooru_3) / (dasuu_3 + foabooru_3 + dettobooru_3 + gihi_3) * 1000) / 1000;
+        //分母が0だったら計算しない
+        if (dasuu_3 + foabooru_3 + dettobooru_3 + gihi_3 == 0) {
+            return;
+        }
+
+        double syuturuiritu = (double)Math.round(((double)tanda_3 + niruida_3 + sanruida_3 + honruida_3 + foabooru_3 + dettobooru_3) / (dasuu_3 + foabooru_3 + dettobooru_3 + gihi_3) * 1000) / 1000;
+
+        //データベースヘルパーオブジェクトを作成
+        helper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        db = helper.getWritableDatabase();
 
         //出塁率をデータベースに登録
         try {
@@ -997,7 +1025,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT tanda,niruida,sanruida,honruida,dasuu, FROM baseballscore WHERE name = " + name;
+            String sql = "SELECT tanda,niruida,sanruida,honruida,dasuu FROM baseballscore WHERE name = " + "\'" + name + "\'";
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
@@ -1026,16 +1054,27 @@ public class DatabaseOperation {
         int honruida_3 = honruida_2 + nowHonruida;
         int dasuu_3 = dasuu_2 + nowDasuu;
 
-        double tyoudaritu = Math.round((tanda_3 + niruida_3 * 2 + sanruida_3 * 3 + honruida_3 * 4) / dasuu_3 * 1000) / 1000;
+        //打数が0だったら計算しない
+
+        if (dasuu_3 == 0) {
+            return;
+        }
+
+        double choudaritu = (double)Math.round(((double)tanda_3 + niruida_3 * 2 + sanruida_3 * 3 + honruida_3 * 4) / dasuu_3 * 1000) / 1000;
+
+        //データベースヘルパーオブジェクトを作成
+        helper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        db = helper.getWritableDatabase();
 
         //長打率をデータベースに登録
         try {
             //インサート用のSQL文字列を用意
-            String sqlUpdate = "UPDATE baseballscore SET tyoudaritu = ? WHERE name = ?";
+            String sqlUpdate = "UPDATE baseballscore SET choudaritu = ? WHERE name = ?";
             //SQL文字列をもとにプリペアードステートメントを取得
             SQLiteStatement stmt = db.compileStatement(sqlUpdate);
             //変数バインド
-            stmt.bindDouble(1, tyoudaritu);
+            stmt.bindDouble(1, choudaritu);
             stmt.bindString(2, name);
             //アップデートSQLの実行
             stmt.executeUpdateDelete();
@@ -1075,7 +1114,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT tanda,niruida,sanruida,honruida,foabooru,dettobooru,dasuu,gihi FROM baseballscore WHERE name = " + name;
+            String sql = "SELECT tanda,niruida,sanruida,honruida,foabooru,dettobooru,dasuu,gihi FROM baseballscore WHERE name = " + "\'" + name + "\'";
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
@@ -1113,7 +1152,17 @@ public class DatabaseOperation {
         int dasuu_3 = dasuu_2 + nowDasuu;
         int gihi_3 = gihi_2 + nowGihi;
 
-        double ops = Math.round((tanda_3 + niruida_3 + sanruida_3 + honruida_3 + foabooru_3 + dettobooru_3) / (dasuu_3 + foabooru_3 + dettobooru_3 + gihi_3) * 1000) / 1000 + Math.round((tanda_3 + niruida_3 + sanruida_3 + honruida_3 + foabooru_3 + dettobooru_3) / (dasuu_3 + foabooru_3 + dettobooru_3 + gihi_3) * 1000) / 1000;
+        //分母が0だったら計算しない
+        if (dasuu_3 + foabooru_3 + dettobooru_3 + gihi_3 == 0) {
+            return;
+        }
+
+        double ops = (double)Math.round(((double)tanda_3 + niruida_3 + sanruida_3 + honruida_3 + foabooru_3 + dettobooru_3) / (dasuu_3 + foabooru_3 + dettobooru_3 + gihi_3) * 1000) / 1000 + (double)Math.round(((double)tanda_3 + niruida_3 * 2 + sanruida_3 * 3 + honruida_3 * 4) / dasuu_3 * 1000) / 1000;
+
+        //データベースヘルパーオブジェクトを作成
+        helper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        db = helper.getWritableDatabase();
 
         //OPSをデータベースに登録
         try {
@@ -1135,10 +1184,10 @@ public class DatabaseOperation {
     public void calculateAndRegistrationBougyoritu(String name, String jisekitenn, String toukyuukai, Context context) {
         //データ型をint型に変換
         int jisekitenn_2 = Integer.parseInt(jisekitenn);
-        int toukyuukai_2 = Integer.parseInt(toukyuukai);
+        double toukyuukai_2 = Double.parseDouble(toukyuukai);
         //今のデータのフィード
         int nowJisekitenn = 0;
-        int nowToukyuukai = 0;
+        double nowToukyuukai = 0;
 
         //今の自責点、投球回を取得
 
@@ -1149,7 +1198,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT jisekitenn,toukyuukai FROM baseballscore WHERE name = " + name;
+            String sql = "SELECT jisekitenn,toukyuukai FROM baseballscore WHERE name = " + "\'" + name + "\'";
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
@@ -1159,7 +1208,7 @@ public class DatabaseOperation {
                 int idxToukyuukai = cursor.getColumnIndex("toukyuukai");
                 //カラムのインデックス値をもとにデータを取得
                 nowJisekitenn = cursor.getInt(idxJisekitenn);
-                nowToukyuukai = cursor.getInt(idxToukyuukai);
+                nowToukyuukai = cursor.getDouble(idxToukyuukai);
             }
 
         } finally {
@@ -1168,9 +1217,19 @@ public class DatabaseOperation {
 
         //防御率を算出する式
         int jisekitenn_3 = jisekitenn_2 + nowJisekitenn;
-        int toukyuukai_3 = toukyuukai_2 + nowToukyuukai;
+        double toukyuukai_3 = toukyuukai_2 + nowToukyuukai;
 
-        double bougyoritu = Math.round((jisekitenn_3 * 9 * 3) / (toukyuukai_3 * 3) * 100) / 100;
+        //投球回が0だったら計算しない
+        if (toukyuukai_3 == 0) {
+            return;
+        }
+
+        double bougyoritu = (double)Math.round((jisekitenn_3 * 9 * 3) / (toukyuukai_3 * 3) * 100) / 100;
+
+        //データベースヘルパーオブジェクトを作成
+        helper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        db = helper.getWritableDatabase();
 
         //防御率をデータベースに登録
         try {
@@ -1206,7 +1265,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT syubikikai,sissaku FROM baseballscore WHERE name = " + name;
+            String sql = "SELECT syubikikai,sissaku FROM baseballscore WHERE name = " + "\'" + name + "\'";
             //SQLの実行
             Cursor cursor = db.rawQuery(sql, null);
             //データを取得
@@ -1226,7 +1285,17 @@ public class DatabaseOperation {
         int syubikikai_3 = syubikikai_2 + nowSyubikikai;
         int sissaku_3 = sissaku_2 + nowSissaku;
 
-        double syubiritu = Math.round((syubikikai_3 - sissaku_3) / syubikikai_3 * 1000) / 1000;
+        //守備機会が0だったら計算しない
+        if (syubikikai_3 == 0) {
+            return;
+        }
+
+        double syubiritu = (double)Math.round(((double)syubikikai_3 - sissaku_3) / syubikikai_3 * 1000) / 1000;
+
+        //データベースヘルパーオブジェクトを作成
+        helper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        db = helper.getWritableDatabase();
 
         //守備率をデータベースに登録
         try {
@@ -1255,9 +1324,6 @@ public class DatabaseOperation {
             case "安打":
                 koumoku_2 = "anda";
                 break;
-            case "打率":
-                koumoku_2 = "daritu";
-                break;
             case "打点":
                 koumoku_2 = "datenn";
                 break;
@@ -1285,14 +1351,8 @@ public class DatabaseOperation {
             case "死球":
                 koumoku_2 = "dettobooru";
                 break;
-            case "出塁率":
-                koumoku_2 = "syuturuiritu";
-                break;
-            case "OPS":
-                koumoku_2 = "ops";
-                break;
-            case "長打率":
-                koumoku_2 = "choudaritu";
+            case "盗塁":
+                koumoku_2 = "tourui";
                 break;
             case "盗塁死":
                 koumoku_2 = "touruisasareru";
@@ -1316,13 +1376,13 @@ public class DatabaseOperation {
                 koumoku_2 = "foabooruataeru";
                 break;
             case "与死球":
-                koumoku_2 = "dettobooruataeur";
+                koumoku_2 = "dettobooruataeru";
                 break;
             case "奪三振":
-                koumoku_2 = "darusansinn";
+                koumoku_2 = "datusansinn";
                 break;
-            case "守備率":
-                koumoku_2 = "syubiritu";
+            case "盗塁刺":
+                koumoku_2 = "touruisasu";
                 break;
             case "失策":
                 koumoku_2 = "sissaku";
@@ -1332,6 +1392,7 @@ public class DatabaseOperation {
                 break;
             case "遅刻":
                 koumoku_2 = "tikoku";
+                break;
             default:
                 koumoku_2 = "";
         }
@@ -1343,7 +1404,7 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT name, " + koumoku_2 + " FROM baseballscore ORDER BY " + koumoku_2 + " DESC";
+            String sql = "SELECT name," + koumoku_2 + " FROM baseballscore ORDER BY " + koumoku_2 + " DESC";
             //SQLの実行
             Cursor cursor = database.rawQuery(sql, null);
             //データを取得
@@ -1361,10 +1422,32 @@ public class DatabaseOperation {
         return rankingList;
     }
 
-    //データベースから防御率を昇順で取得する処理メソッド
-    public List<Map<String, String>> returnBougyorituiRanking(List<Map<String, String>> rankingList, String bougyoritu, Context context) {
-        //bougyorituの値がローマ字じゃないのでローマ字に変換する
-        String bougyoritu_2 = "bougyoritu";
+    //データベースから打率、出塁率、OPS、長打率、守備率を降順で取得する処理メソッド
+    public List<Map<String, String>> returnKakurituRanking(List<Map<String, String>> rankingList, String koumoku, Context context) {
+        //koumokuの値がローマ字じゃないのでローマ字に変換する
+
+        //変換した値を入れるための変数のフィード
+        String koumoku_2 = "";
+        //koumokuの値をローマ字に変更
+        switch (koumoku) {
+            case "打率":
+                koumoku_2 = "daritu";
+                break;
+            case "出塁率":
+                koumoku_2 = "syuturuiritu";
+                break;
+            case "OPS":
+                koumoku_2 = "ops";
+                break;
+            case "長打率":
+                koumoku_2 = "choudaritu";
+                break;
+            case "守備率":
+                koumoku_2 = "syubiritu";
+                break;
+            default:
+                koumoku_2 = "";
+        }
 
         //データベースヘルパーオブジェクトを作成
         DatabaseHelper dHelper = new DatabaseHelper(context);
@@ -1373,7 +1456,37 @@ public class DatabaseOperation {
 
         try {
             //SQL文の用意
-            String sql = "SELECT name, " + bougyoritu_2 + " FROM baseballscore ORDER BY " + bougyoritu_2;
+            String sql = "SELECT name," + koumoku_2 + " FROM baseballscore ORDER BY " + koumoku_2 + " DESC";
+            //SQLの実行
+            Cursor cursor = database.rawQuery(sql, null);
+            //データを取得
+            while (cursor.moveToNext()) {
+                //選手名とスコアを格納するMapオブジェクトの用意とrankingListへのデータ登録
+                Map<String, String> playerAndScore = new HashMap<>();
+                playerAndScore.put("name",cursor.getString(cursor.getColumnIndex("name")));
+                playerAndScore.put("score",String.format("%1$.3f",cursor.getDouble(cursor.getColumnIndex(koumoku_2))));
+                rankingList.add(playerAndScore);
+            }
+
+        } finally {
+            database.close();
+        }
+        return rankingList;
+    }
+
+    //データベースから防御率を昇順で取得する処理メソッド
+    public List<Map<String, String>> returnBougyorituiRanking(List<Map<String, String>> rankingList, Context context) {
+        //bougyorituの値がローマ字じゃないのでローマ字に変換する
+        String bougyoritu = "bougyoritu";
+
+        //データベースヘルパーオブジェクトを作成
+        DatabaseHelper dHelper = new DatabaseHelper(context);
+        //データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        SQLiteDatabase database = dHelper.getWritableDatabase();
+
+        try {
+            //SQL文の用意
+            String sql = "SELECT name," + bougyoritu + " FROM baseballscore ORDER BY " + bougyoritu;
             //SQLの実行
             Cursor cursor = database.rawQuery(sql, null);
             //デーを取得
@@ -1381,7 +1494,7 @@ public class DatabaseOperation {
                 //選手名とスコアを格納するMapオブジェクトの用意とrankingListへのデータ登録
                 Map<String, String> playerAndScore = new HashMap<>();
                 playerAndScore.put("name",cursor.getString(cursor.getColumnIndex("name")));
-                playerAndScore.put("score",cursor.getString(cursor.getColumnIndex(bougyoritu_2)));
+                playerAndScore.put("score",String.format("%1$.2f",cursor.getDouble(cursor.getColumnIndex(bougyoritu))));
                 rankingList.add(playerAndScore);
             }
         } finally {

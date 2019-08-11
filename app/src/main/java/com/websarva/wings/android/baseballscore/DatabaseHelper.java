@@ -37,12 +37,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb.append("dettobooru INTEGER DEFAULT 0,");
         sb.append("syuturuiritu NUMERIC DEFAULT NoRecord,");
         sb.append("ops NUMERIC DEFAULT NoRecord,");
-        sb.append("tyoudaritu NUMERIC DEFAULT NoRecord,");
+        sb.append("choudaritu NUMERIC DEFAULT NoRecord,");
         sb.append("tourui INTEGER DEFAULT 0,");
         sb.append("touruisasareru INTEGER DEFAULT 0,");
         sb.append("gida INTEGER DEFAULT 0,");
         sb.append("gihi INTEGER DEFAULT 0,");
-        sb.append("toukyuukai NUMERIC DEFAULT 0,");
+        sb.append("toukyuukai  DEFAULT 0,");
         sb.append("sittenn INTEGER DEFAULT 0,");
         sb.append("jisekitenn INTEGER DEFAULT 0,");
         sb.append("datusansinn INTEGER DEFAULT 0,");
@@ -60,6 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //SQLの実行
         db.execSQL(sql);
+
     }
 
     @Override

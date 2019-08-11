@@ -6,11 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +46,20 @@ public class Ranking_2 extends Fragment {
             //SimpleAdapterで使用するListオブジェクトを用意
             List<Map<String, String>> rankingList = new ArrayList<>();
             //データベースから選択された項目を降順に取得
-            rankingList = dbo.returnBougyorituiRanking(rankingList, rankingName, getActivity());
+            rankingList = dbo.returnBougyorituiRanking(rankingList, getActivity());
+            //SimpleAdapterの第4引数from用のデータを用意
+            String[] from = {"name", "score"};
+            //SimpleAdapter第4引数のto用データの用意
+            int[] to = {R.id.tvPlayerName, R.id.tvScore};
+            //SimpleAdapterを生成
+            SimpleAdapter adapter = new SimpleAdapter(getActivity(), rankingList, R.layout.row, from, to);
+            //ListViewにアダプターをセット
+            rankingMenu.setAdapter(adapter);
+        }else if (rankingName == "打率" || rankingName == "出塁率" || rankingName == "OPS" || rankingName == "長打率" || rankingName == "守備率") {
+            //SimpleAdapterで使用するListオブジェクトを用意
+            List<Map<String, String>> rankingList = new ArrayList<>();
+            //データベースから選択された項目を降順に取得
+            rankingList = dbo.returnKakurituRanking(rankingList, rankingName, getActivity());
             //SimpleAdapterの第4引数from用のデータを用意
             String[] from = {"name", "score"};
             //SimpleAdapter第4引数のto用データの用意

@@ -47,7 +47,7 @@ public class Home extends AppCompatActivity {
         DatabaseOperation dbo = new DatabaseOperation();
         dbo.returnPlayerName(item, Home.this);
         //ArrayAdapterのコンストラクタ
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_list_item_1, item);
         //ListViewにアダプターをセット
         playerMenu.setAdapter(adapter);
 
@@ -122,7 +122,7 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //EditText選手名が入力された時の処理が記述されたメンバクラス
+    //EditTextに選手名が入力された時の処理が記述されたメンバクラス
     private class EditEventListener implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
